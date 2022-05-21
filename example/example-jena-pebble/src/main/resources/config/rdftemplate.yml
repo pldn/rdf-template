@@ -1,0 +1,14 @@
+dataSources:
+  concepts:
+    resolver: sparql
+    location: sparql/concepts.rq
+  collection:
+    resolver: sparql
+    location: sparql/collection.rq
+  members:
+    resolver: sparql
+    location: sparql/members.rq
+
+templates:
+  - template: template.md
+    outputLocation: output/

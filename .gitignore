@@ -1,0 +1,18 @@
+# eclipse
+**/.classpath
+**/.project
+**/.settings
+**/.checkstyle
+.factorypath
+
+# maven
+**/target
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+bin/
+
+output/
