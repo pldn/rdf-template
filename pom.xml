@@ -53,7 +53,7 @@
     <jena.version>4.5.0</jena.version>
     <pebble.version>3.1.5</pebble.version>
     <lombok.version>1.18.24</lombok.version>
-    <jackson.version>2.13.2</jackson.version>
+    <jackson.version>2.13.3</jackson.version>
     <junit.jupiter.version>5.8.2</junit.jupiter.version>
     <mockito.junit.jupiter.version>4.5.1</mockito.junit.jupiter.version>
   </properties>
