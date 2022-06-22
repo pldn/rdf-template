@@ -11,9 +11,13 @@ public class DataSource {
 
   static final String DATA_SOURCE_LOCATION_KEY = "location";
 
+  static final String DATA_SOURCE_SOURCE_KEY = "source";
+
   private String name;
 
   private String resolver;
 
   private String location;
+
+  private String source;
 }

@@ -2,6 +2,7 @@ package nl.pldn.rdftemplate.config;
 
 import static nl.pldn.rdftemplate.config.DataSource.DATA_SOURCE_LOCATION_KEY;
 import static nl.pldn.rdftemplate.config.DataSource.DATA_SOURCE_RESOLVER_KEY;
+import static nl.pldn.rdftemplate.config.DataSource.DATA_SOURCE_SOURCE_KEY;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -48,8 +49,10 @@ public class DataSourcesDeserializer extends StdDeserializer<DataSources> {
         .asText();
     var location = node.get(DATA_SOURCE_LOCATION_KEY)
         .asText();
+    var source = node.get(DATA_SOURCE_SOURCE_KEY)
+        .asText();
 
-    return new DataSource(name, resolver, location);
+    return new DataSource(name, resolver, location, source);
   }
 
 }
