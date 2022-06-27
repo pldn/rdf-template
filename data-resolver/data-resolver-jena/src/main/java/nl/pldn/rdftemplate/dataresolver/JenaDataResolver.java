@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import nl.pldn.rdftemplate.config.ConfigResourceLoaders;
 import nl.pldn.rdftemplate.config.DataSource;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
@@ -26,40 +27,45 @@ public class JenaDataResolver implements DataSourceResolver {
 
   @Override
   public Object resolve(DataSource dataSource) {
-    var dataSourceName = dataSource.getName();
-
+    Model model = null;
     var dataSourceSource = dataSource.getSource();
-    Model model = RDFDataMgr.loadModel(dataSourceSource);
 
-    var dataSourceLocation = dataSource.getLocation();
-    Query query = QueryFactory.read(dataSourceLocation);
+    if (dataSource.getSource() != null) {
+      model = ConfigResourceLoaders.getResource(dataSourceSource)
+          .map(ConfigResourceLoaders::getResourceUriString)
+          .map(RDFDataMgr::loadModel)
+          .orElseThrow(() -> new DataResolverException(String.format("Could not find source %s", dataSourceSource)));
+    }
 
-    List<Map> list = new ArrayList<Map>();
-    try (QueryExecution qexec = QueryExecutionFactory.create(query, model)) {
-      ResultSet results = qexec.execSelect();
-      for (; results.hasNext();) {
-        QuerySolution soln = results.nextSolution();
-        Iterator<String> varNames = soln.varNames();
-        Map<String, String> map = new HashMap<String, String>();
+    var query = ConfigResourceLoaders.getResource(dataSource.getLocation())
+        .map(ConfigResourceLoaders::getResourceUriString)
+        .map(QueryFactory::read)
+        .orElseThrow(
+            () -> new DataResolverException(String.format("Could not find query %s", dataSource.getLocation())));
+
+    return executeQuery(model, query);
+  }
+
+  private List<Map<String, String>> executeQuery(Model model, Query query) {
+    List<Map<String, String>> result = new ArrayList<>();
+    try (QueryExecution queryExecution = QueryExecutionFactory.create(query, model)) {
+      ResultSet resultSet = queryExecution.execSelect();
+
+      while (resultSet.hasNext()) {
+        QuerySolution querySolution = resultSet.nextSolution();
+        Iterator<String> varNames = querySolution.varNames();
+        Map<String, String> row = new HashMap<>();
+
         while (varNames.hasNext()) {
           String name = varNames.next();
-          map.put(name, soln.get(name)
+          row.put(name, querySolution.get(name)
               .toString());
         }
-        list.add(map);
-        // Process
+
+        result.add(row);
       }
     }
-    return list;
 
-    // TODO: replace this example with actual implementation
-    /*
-     * if (dataSourceName.equals("concepts") || dataSourceName.equals("members")) { return
-     * List.of(Map.of("prefLabel", "Foo", "definition", "this is a foo", "notation", "foo"),
-     * Map.of("prefLabel", "Bar", "definition", "this is a bar", "notation", "bar")); } else if
-     * (dataSourceName.equals("collection")) { return Map.of("label", "FooBar"); }
-     *
-     * return Map.of();
-     */
+    return result;
   }
 }

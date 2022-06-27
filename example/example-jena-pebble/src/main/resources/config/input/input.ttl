@@ -1,0 +1,14 @@
+@prefix ex: <http://example.org/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+ex:Bicycle a skos:Concept;
+  rdfs:label "Bicycle";
+  skos:prefLabel "Bicycle";
+  skos:definition "A human-powered or motor-powered assisted, pedal-driven, single-track vehicle, having two wheels";
+  skos:notation "bicycle";
+  skos:member ex:Vehicles;
+.
+
+ex:Vehicles a skos:Collection;
+  rdfs:label "Vehicles";
+.

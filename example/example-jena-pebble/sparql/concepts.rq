@@ -1,9 +1,0 @@
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-SELECT ?prefLabel ?definition
-WHERE {
-  ?s a skos:Concept.
-  ?s skos:prefLabel ?prefLabel
-  OPTIONAL {
-    ?s skos:definition ?definition
-  }
-}
