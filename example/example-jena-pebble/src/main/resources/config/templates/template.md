@@ -14,7 +14,7 @@
 
 ## Collection example
 
-### {{ collection.label }}
+### {{ collection[0].label }}
 
 | code                  | definition              |
 |-----------------------|-------------------------|
