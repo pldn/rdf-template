@@ -1,6 +1,7 @@
 package nl.pldn.rdftemplate.config;
 
 import java.net.URI;
+import java.nio.file.Paths;
 
 public class ConfigProperties {
 
@@ -16,6 +17,12 @@ public class ConfigProperties {
 
   public static String getConfigPath() {
     return CONFIG_PATH;
+  }
+
+  public static URI getRelativeFileConfigPath() {
+    return Paths.get(CONFIG_PATH)
+        .toAbsolutePath()
+        .toUri();
   }
 
   public static URI getFileConfigPath() {

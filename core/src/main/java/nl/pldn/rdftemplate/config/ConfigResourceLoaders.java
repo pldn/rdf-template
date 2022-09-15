@@ -7,24 +7,33 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import lombok.NonNull;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import nl.pldn.rdftemplate.dataresolver.DataResolverException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
+@Slf4j
 public class ConfigResourceLoaders {
 
   @SneakyThrows
   public static Optional<Resource> getResource(@NonNull String resourceLocation) {
+
+    var relativeUri = resolve(ConfigProperties.getRelativeFileConfigPath(), resourceLocation);
+    if (uriExists(relativeUri)) {
+      return Optional.of(new UrlResource(relativeUri));
+    }
+
     var uri = resolve(ConfigProperties.getFileConfigPath(), resourceLocation);
     if (uriExists(uri)) {
       return Optional.of(new UrlResource(uri));
-    } else {
-      var resource = new ClassPathResource(ConfigProperties.getConfigPath() + resourceLocation);
-      if (resource.exists()) {
-        return Optional.of(resource);
-      }
     }
+
+    var resource = new ClassPathResource(ConfigProperties.getConfigPath() + resourceLocation);
+    if (resource.exists()) {
+      return Optional.of(resource);
+    }
+
     return Optional.empty();
   }
 
