@@ -58,18 +58,18 @@ public class DataSourcesDeserializer extends StdDeserializer<DataSources> {
         .asText();
     var source = node.get(DATA_SOURCE_SOURCE_KEY)
         .asText();
-    var groupValuesByNode = node.get(DATA_SOURCE_SQUASH_BY_KEY);
-    Set<String> groupValuesBy = Set.of();
-    if (groupValuesByNode != null) {
+    var squashByKeyNode = node.get(DATA_SOURCE_SQUASH_BY_KEY);
+    Set<String> squashByKey = Set.of();
+    if (squashByKeyNode != null) {
       try {
-        groupValuesBy = OBJECT_MAPPER.readerFor(new TypeReference<Set<String>>() {})
-            .readValue(groupValuesByNode);
+        squashByKey = OBJECT_MAPPER.readerFor(new TypeReference<Set<String>>() {})
+            .readValue(squashByKeyNode);
       } catch (IOException e) {
         throw new DataResolverException(String.format("Could not resolve value for %s", DATA_SOURCE_SQUASH_BY_KEY));
       }
     }
 
-    return new DataSource(name, resolver, location, source, groupValuesBy);
+    return new DataSource(name, resolver, location, source, squashByKey);
   }
 
 }
