@@ -3,20 +3,27 @@ package nl.pldn.rdftemplate.config;
 import static nl.pldn.rdftemplate.config.DataSource.DATA_SOURCE_LOCATION_KEY;
 import static nl.pldn.rdftemplate.config.DataSource.DATA_SOURCE_RESOLVER_KEY;
 import static nl.pldn.rdftemplate.config.DataSource.DATA_SOURCE_SOURCE_KEY;
+import static nl.pldn.rdftemplate.config.DataSource.DATA_SOURCE_SQUASH_BY_KEY;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import nl.pldn.rdftemplate.dataresolver.DataResolverException;
 
 public class DataSourcesDeserializer extends StdDeserializer<DataSources> {
+
+  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   public DataSourcesDeserializer() {
     this(null);
@@ -51,8 +58,18 @@ public class DataSourcesDeserializer extends StdDeserializer<DataSources> {
         .asText();
     var source = node.get(DATA_SOURCE_SOURCE_KEY)
         .asText();
+    var groupValuesByNode = node.get(DATA_SOURCE_SQUASH_BY_KEY);
+    Set<String> groupValuesBy = Set.of();
+    if (groupValuesByNode != null) {
+      try {
+        groupValuesBy = OBJECT_MAPPER.readerFor(new TypeReference<Set<String>>() {})
+            .readValue(groupValuesByNode);
+      } catch (IOException e) {
+        throw new DataResolverException(String.format("Could not resolve value for %s", DATA_SOURCE_SQUASH_BY_KEY));
+      }
+    }
 
-    return new DataSource(name, resolver, location, source);
+    return new DataSource(name, resolver, location, source, groupValuesBy);
   }
 
 }

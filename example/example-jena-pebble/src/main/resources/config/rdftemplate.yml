@@ -3,6 +3,8 @@ dataSources:
     resolver: sparql
     location: sparql/concepts.rq
     source: input/input.ttl
+    squashByKey:
+      - prefLabel
   collection:
     resolver: sparql
     location: sparql/collection.rq

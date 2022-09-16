@@ -5,10 +5,11 @@
 {% for concept in concepts %}
 ### {{ concept.prefLabel }}
 
-|                  |                          |
-|------------------|--------------------------|
-| **voorkeurterm** | {{ concept.prefLabel }}  |
-| **definitie**    | {{ concept.definition }} |
+|                       |                                       |
+|-----------------------|---------------------------------------|
+| **voorkeurterm**      | {{ concept.prefLabel  | join(', ') }} |
+| **alternatieve term** | {{ concept.altLabel   | join(', ') }} |
+| **definitie**         | {{ concept.definition | join(', ') }} |
 
 {% endfor %}
 

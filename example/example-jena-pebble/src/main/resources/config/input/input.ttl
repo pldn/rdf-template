@@ -5,6 +5,7 @@ ex:Bicycle a skos:Concept;
   rdfs:label "Bicycle";
   skos:prefLabel "Bicycle";
   skos:definition "A human-powered or motor-powered assisted, pedal-driven, single-track vehicle, having two wheels";
+  skos:altLabel "Tweewieler", "Bike";
   skos:notation "bicycle";
   skos:member ex:Vehicles;
 .

@@ -1,10 +1,10 @@
 package nl.pldn.rdftemplate.dataresolver;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import nl.pldn.rdftemplate.config.ConfigResourceLoaders;
 import nl.pldn.rdftemplate.config.DataSource;
 import org.apache.jena.query.Query;
@@ -43,11 +43,12 @@ public class JenaDataResolver implements DataSourceResolver {
         .orElseThrow(
             () -> new DataResolverException(String.format("Could not find query %s", dataSource.getLocation())));
 
-    return executeQuery(model, query);
+    return executeQuery(model, query, dataSource.getSquashByKey());
   }
 
-  private List<Map<String, String>> executeQuery(Model model, Query query) {
-    List<Map<String, String>> result = new ArrayList<>();
+  private List<Map<String, ?>> executeQuery(Model model, Query query, Set<String> keys) {
+    SquashingResultTable squashingResultTable = SquashingResultTable.create(keys);
+
     try (QueryExecution queryExecution = QueryExecutionFactory.create(query, model)) {
       ResultSet resultSet = queryExecution.execSelect();
 
@@ -62,10 +63,10 @@ public class JenaDataResolver implements DataSourceResolver {
               .toString());
         }
 
-        result.add(row);
+        squashingResultTable.add(row);
       }
     }
 
-    return result;
+    return squashingResultTable.getResults();
   }
 }
