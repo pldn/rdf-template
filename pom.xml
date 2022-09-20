@@ -54,7 +54,7 @@
     <pebble.version>3.1.5</pebble.version>
     <lombok.version>1.18.24</lombok.version>
     <jackson.version>2.13.4</jackson.version>
-    <junit.jupiter.version>5.9.0</junit.jupiter.version>
+    <junit.jupiter.version>5.9.1</junit.jupiter.version>
     <mockito.junit.jupiter.version>4.8.0</mockito.junit.jupiter.version>
   </properties>
 
