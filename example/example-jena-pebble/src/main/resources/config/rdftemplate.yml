@@ -9,6 +9,8 @@ dataSources:
     resolver: sparql
     location: sparql/collection.rq
     source: input/input.ttl
+    squashByKey:
+      - prefLabel
   members:
     resolver: sparql
     location: sparql/members.rq

@@ -2,7 +2,8 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT *
 WHERE {
   ?s a skos:Concept ;
-    skos:member ?o ;
+    ^skos:member ?o ;
     skos:notation ?notation ;
     skos:definition ?definition .
+    FILTER (langMatches(lang(?definition), "en"))
 }
