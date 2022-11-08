@@ -49,7 +49,7 @@
     <java.version>11</java.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
-    <spring.boot.version>2.7.4</spring.boot.version>
+    <spring.boot.version>2.7.5</spring.boot.version>
     <jena.version>4.5.0</jena.version>
     <pebble.version>3.1.6</pebble.version>
     <lombok.version>1.18.24</lombok.version>
