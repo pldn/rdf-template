@@ -1,0 +1,17 @@
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT (str(?prefLabel) as ?_title) ?prefLabel ?altLabel ?definition ?broaderConcept
+WHERE {
+  ?s a skos:Concept;
+    skos:prefLabel ?prefLabel. 
+  FILTER (langMatches(lang(?prefLabel), "en"))
+  OPTIONAL {
+    ?s skos:altLabel ?altLabel.
+  }
+  OPTIONAL {
+    ?s skos:definition ?definition.
+    FILTER (langMatches(lang(?definition), "en"))
+  }
+  OPTIONAL {
+    ?s skos:broader|^skos:narrower ?broaderConcept.
+  }
+}

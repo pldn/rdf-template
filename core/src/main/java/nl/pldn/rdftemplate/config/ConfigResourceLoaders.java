@@ -1,5 +1,6 @@
 package nl.pldn.rdftemplate.config;
 
+import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import nl.pldn.rdftemplate.dataresolver.DataResolverException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -44,5 +46,14 @@ public class ConfigResourceLoaders {
 
   static boolean uriExists(URI uri) {
     return Files.exists(Paths.get(uri));
+  }
+
+  public static String getResourceUriString(Resource resource) {
+    try {
+      return resource.getURI()
+          .toString();
+    } catch (IOException ioException) {
+      throw new DataResolverException(String.format("Exception getting URI for resource %s", resource), ioException);
+    }
   }
 }

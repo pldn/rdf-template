@@ -7,7 +7,6 @@ import static java.util.stream.Collectors.toUnmodifiableMap;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -84,7 +83,7 @@ public class RdfTemplateProcessor {
     var outputPath = template.getOutputLocation()
         .resolve(template.getTemplate());
 
-    try (var writer = Files.newBufferedWriter(outputPath, StandardOpenOption.CREATE)) {
+    try (var writer = Files.newBufferedWriter(outputPath)) {
       templater.evaluateAndWrite(templateResource.getFile(), writer, dataContext);
     } catch (IOException ioException) {
       throw new RdfTemplateException(String.format("An exception occurred while evaluating template %s", template),

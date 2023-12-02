@@ -2,12 +2,19 @@ dataSources:
   concepts:
     resolver: sparql
     location: sparql/concepts.rq
+    source: input/input.ttl
+    squashByKey:
+      - prefLabel
   collection:
     resolver: sparql
     location: sparql/collection.rq
+    source: input/input.ttl
+    squashByKey:
+      - prefLabel
   members:
     resolver: sparql
     location: sparql/members.rq
+    source: input/input.ttl
 
 templates:
   - template: template.md

@@ -1,0 +1,48 @@
+@prefix ex: <http://example.org/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix dct: <http://purl.org/dc/terms/> .
+
+ex:Vehicle a skos:Concept ;
+  rdfs:label "Vehicle" ;
+  skos:prefLabel "Vehicle"@en;
+  skos:definition "A vehicle is a machine that transports people or cargo."@en;
+.
+ex:Bicycle a skos:Concept;
+  rdfs:label "Bicycle";
+  skos:prefLabel "Bicycle"@en;
+  skos:definition "A human-powered or motor-powered assisted, pedal-driven, single-track vehicle, having two wheels."@en;
+  skos:altLabel
+    "Tweewieler",
+    "Bike";
+  skos:broader ex:Vehicle;
+  skos:narrower ex:FoldingBike;
+  skos:notation "bicycle";
+.
+ex:FoldingBike a skos:Concept ;
+  rdfs:label "Folding Bike" ;
+  skos:prefLabel "Folding Bike"@en;
+  skos:definition "A folding bicycle is a bicycle designed to fold into a compact form, facilitating transport and storage."@en;
+  skos:notation "foldingbike";
+.
+ex:Mountainbike a skos:Concept ;
+  rdfs:label "Mountainbike";
+  skos:prefLabel 
+    "Mountainbike"@en,
+    "Mountainbike"@nl;
+  skos:definition 
+    "A bicycle with a light sturdy frame, broad deep-treaded tires, and multiple gears, originally designed for riding on mountainous terrain."@en, 
+    "Een mountainbike of terreinfiets, ook wel MTB of ATB genoemd, is een fiets gemaakt om offroad te rijden, op onverharde wegen of paden. Dit wordt mountainbiken genoemd. Mountainbikes hebben dikke banden met profiel voor comfort en extra grip."@nl;
+  skos:altLabel 
+    "terreinfiets" ,
+    "MBT" ,
+    "ATB" ;
+  skos:broader ex:Bicycle, ex:Vehicle ;
+  dct:source <https://en.wikipedia.org/wiki/Mountainbike> ;
+  skos:notation "mountainbike" ;
+.
+
+ex:Vehicles a skos:Collection;
+  rdfs:label "Vehicles";
+  skos:member ex:Bicycle, ex:Mountainbike, ex:FoldingBike;
+.
